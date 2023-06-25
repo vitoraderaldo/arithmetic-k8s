@@ -10,8 +10,8 @@ open-argo-ui:
 create-apps:
 	argocd login localhost:8080
 	argocd app create arithmetic-kong \
-	--repo https://github.com/vitoraderaldo/arithmetic-kong \
+	--repo https://github.com/vitoraderaldo/arithmetic-k8s \
 	--sync-policy none \
-	--path k8s \
+	--path kong/k8s \
 	--dest-server https://kubernetes.default.svc \
 	--dest-namespace default
