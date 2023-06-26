@@ -15,3 +15,10 @@ create-apps:
 	--path kong/k8s \
 	--dest-server https://kubernetes.default.svc \
 	--dest-namespace default
+
+	argocd app create arithmetic-calculator \
+	--repo https://github.com/vitoraderaldo/arithmetic-k8s \
+	--sync-policy none \
+	--path calculator/k8s \
+	--dest-server https://kubernetes.default.svc \
+	--dest-namespace default
