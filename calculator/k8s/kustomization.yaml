@@ -7,4 +7,4 @@ resources:
 ## To change the newTag just run: kustomize edit set image vitor96k/arithmetic-backend:4.0.0
 images:
 - name: vitor96k/arithmetic-backend
-  newTag: 1.0.0
+  newTag: 5.0.7
