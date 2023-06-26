@@ -29,6 +29,7 @@ filebeat:
                 fail_on_error: false
                 ignore_missing: false
                 overwrite_keys: true
+
               
     - type: log
       paths:
