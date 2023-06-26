@@ -25,9 +25,9 @@ create-apps:
 	--dest-server https://kubernetes.default.svc \
 	--dest-namespace default
 
-	argocd app create arithmetic-observability \
+	argocd app create arithmetic-heartbeat \
 	--repo https://github.com/vitoraderaldo/arithmetic-k8s \
 	--sync-policy none \
-	--path observability/k8s \
+	--path observability/heartbeat \
 	--dest-server https://kubernetes.default.svc \
 	--dest-namespace default
