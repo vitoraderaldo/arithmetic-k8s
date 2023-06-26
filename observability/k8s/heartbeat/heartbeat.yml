@@ -1,0 +1,20 @@
+heartbeat.monitors:
+- type: http
+  schedule: '@every 30s'
+  urls:
+    - '${ELASTIC_KIBANA_URL}'
+    - '${ELASTIC_APM_SERVER_URL}'
+    - '${CALCULATOR_SERVICE_URL}'
+
+- type: tcp
+  schedule: '@every 30s'
+  hosts:
+    - '${CALCULATOR_DATABASE_URL}'
+    - '${KAFKA_HOST}'
+
+
+processors:
+- add_cloud_metadata: ~
+
+cloud.id: '${ELASTIC_CLOUD_ID}'
+cloud.auth: '${ELASTIC_USERNAME}:${ELASTIC_PASSWORD}'
