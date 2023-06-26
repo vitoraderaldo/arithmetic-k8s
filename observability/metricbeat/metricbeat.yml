@@ -9,6 +9,7 @@ metricbeat.modules:
       - partition
       - consumergroup
 
+
   - module: mysql
     metricsets:
       - status
