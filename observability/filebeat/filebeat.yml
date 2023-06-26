@@ -42,5 +42,8 @@ filebeat:
           overwrite_keys: true
           add_error_key: true
 
-cloud.id: '${ELASTIC_CLOUD_ID}'
-cloud.auth: '${ELASTIC_USERNAME}:${ELASTIC_PASSWORD}'
+output:
+  elasticsearch:
+    hosts: ["elasticsearch:9200"]
+    username: 'elastic'
+    password: 'changeme'
