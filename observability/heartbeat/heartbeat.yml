@@ -12,7 +12,6 @@ heartbeat.monitors:
     - '${CALCULATOR_DATABASE_URL}'
     - '${KAFKA_HOST}'
 
-
 processors:
 - add_cloud_metadata: ~
 
