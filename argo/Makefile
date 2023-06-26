@@ -28,6 +28,6 @@ create-apps:
 	argocd app create arithmetic-observability \
 	--repo https://github.com/vitoraderaldo/arithmetic-k8s \
 	--sync-policy none \
-	--path calculator/observability \
+	--path observability/k8s \
 	--dest-server https://kubernetes.default.svc \
 	--dest-namespace default
