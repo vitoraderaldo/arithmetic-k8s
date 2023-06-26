@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: metricbeat-config-map
+data:
+  metricbeat.yml: |
+    metricbeat.modules:
+    
+      - module: kafka
+        period: 60s
+        hosts: ['${KAFKA_HOST}']
+        username: '${KAFAKA_USERNAME}'
+        password: '${KAFAKA_PASSWORD}'
+        metricsets:
+          - partition
+          - consumergroup
+
+      - module: mysql
+        metricsets:
+          - status
+          - galera_status
+          - performance
+        period: 10s
+        hosts: ['${CALCULATOR_DATABASE_USER}:${CALCULATOR_DATABASE_PASSWORD}@tcp(${CALCULATOR_DATABASE_URL})/']
+
+    setup.dashboards.enabled: true
+    cloud.id: '${ELASTIC_CLOUD_ID}'
+    cloud.auth: '${ELASTIC_USERNAME}:${ELASTIC_PASSWORD}'

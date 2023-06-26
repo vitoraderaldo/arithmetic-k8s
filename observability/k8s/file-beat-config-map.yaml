@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: filebeat-config-map
+data:
+  filebeat.yml: |
+    filebeat:
+      inputs:
+        - type: log
+          paths:
+            - /shared-volume/kong/log/kong.log
+          processors:
+            - decode_json_fields:     
+                fields: ["message"]
+                process_array: true
+                max_depth: 1
+                target: "msg"
+                overwrite_keys: true
+                add_error_key: true
+            - rename:
+                fields:
+                  - from: "message"
+                    to: "oldmessage"
+                  - from: "msg.request.headers.traceparent"
+                    to: "traceparent"
+                ignore_missing: true
+                fail_on_error: true
+            - drop_fields:
+                fields: ["msg.tries", "msg.route", "msg.latencies", "msg.authenticated_entity", "msg.service"]
+                ignore_missing: false
+            - copy_fields:
+                fields:
+                  - from: msg.request.uri
+                    to: message
+                    fail_on_error: false
+                    ignore_missing: false
+                    overwrite_keys: true
+                  
+        - type: log
+          paths:
+            - /shared-volume/calculator/log/arithmetic-calculator.log
+          processors:
+          - decode_json_fields:     
+              fields: ["message"]
+              process_array: false
+              max_depth: 2
+              target: ""
+              overwrite_keys: true
+              add_error_key: true
+
+    cloud.id: '${ELASTIC_CLOUD_ID}'
+    cloud.auth: '${ELASTIC_USERNAME}:${ELASTIC_PASSWORD}'

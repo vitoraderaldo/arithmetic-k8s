@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metricbeat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: metricbeat
+  template:
+    metadata:
+      labels:
+        app: metricbeat
+    spec:
+      containers:
+        - name: metricbeat
+          image: docker.elastic.co/beats/metricbeat:8.8.1
+          volumeMounts:
+            - name: config-volume
+              mountPath: /usr/share/metricbeat/metricbeat.yml
+              subPath: metricbeat.yml
+          envFrom:
+          - secretRef:
+              name: observability-secrets
+          resources:
+            requests:
+              cpu: 100m
+              memory: 300Mi
+            limits:
+              cpu: 100m
+              memory: 450M
+      volumes:
+        - name: config-volume
+          configMap:
+            name: metricbeat-config-map

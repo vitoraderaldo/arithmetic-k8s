@@ -8,7 +8,9 @@ open-argo-ui:
 	kubectl port-forward svc/argocd-server -n argocd 8080:443
 
 create-apps:
+
 	argocd login localhost:8080
+
 	argocd app create arithmetic-kong \
 	--repo https://github.com/vitoraderaldo/arithmetic-k8s \
 	--sync-policy none \
@@ -20,5 +22,12 @@ create-apps:
 	--repo https://github.com/vitoraderaldo/arithmetic-k8s \
 	--sync-policy none \
 	--path calculator/k8s \
+	--dest-server https://kubernetes.default.svc \
+	--dest-namespace default
+
+	argocd app create arithmetic-observability \
+	--repo https://github.com/vitoraderaldo/arithmetic-k8s \
+	--sync-policy none \
+	--path calculator/observability \
 	--dest-server https://kubernetes.default.svc \
 	--dest-namespace default

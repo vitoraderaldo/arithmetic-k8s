@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heartbeat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: heartbeat
+  template:
+    metadata:
+      labels:
+        app: heartbeat
+    spec:
+      containers:
+        - name: heartbeat
+          image: docker.elastic.co/beats/heartbeat:8.8.1
+          volumeMounts:
+            - name: config-volume
+              mountPath: /usr/share/heartbeat/heartbeat.yml
+              subPath: heartbeat.yml
+          envFrom:
+          - secretRef:
+              name: observability-secrets
+          resources:
+            requests:
+              cpu: 100m
+              memory: 300Mi
+            limits:
+              cpu: 100m
+              memory: 450M
+      volumes:
+        - name: config-volume
+          configMap:
+            name: heartbeat-config-map

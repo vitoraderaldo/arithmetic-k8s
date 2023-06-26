@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: filebeat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: filebeat
+  template:
+    metadata:
+      labels:
+        app: filebeat
+    spec:
+      containers:
+        - name: filebeat
+          image: docker.elastic.co/beats/filebeat:8.8.1
+          volumeMounts:
+            - name: config-volume
+              mountPath: /usr/share/filebeat/filebeat.yml
+              subPath: filebeat.yml
+            - name: logs-volume
+              mountPath: /shared-volume/
+          envFrom:
+          - secretRef:
+              name: observability-secrets
+          resources:
+            requests:
+              cpu: 100m
+              memory: 300Mi
+            limits:
+              cpu: 100m
+              memory: 450M
+      volumes:
+        - name: config-volume
+          configMap:
+            name: filebeat-config-map
+        - name: logs-volume
+          persistentVolumeClaim:
+            claimName: logs-volume-claim
