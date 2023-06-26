@@ -31,3 +31,24 @@ create-apps:
 	--path observability/heartbeat \
 	--dest-server https://kubernetes.default.svc \
 	--dest-namespace default
+
+	argocd app create arithmetic-filebeat \
+	--repo https://github.com/vitoraderaldo/arithmetic-k8s \
+	--sync-policy none \
+	--path observability/filebeat \
+	--dest-server https://kubernetes.default.svc \
+	--dest-namespace default
+
+	argocd app create arithmetic-metricbeat \
+	--repo https://github.com/vitoraderaldo/arithmetic-k8s \
+	--sync-policy none \
+	--path observability/metricbeat \
+	--dest-server https://kubernetes.default.svc \
+	--dest-namespace default
+
+	argocd app create arithmetic-prometheus \
+	--repo https://github.com/vitoraderaldo/arithmetic-k8s \
+	--sync-policy none \
+	--path observability/prometheus \
+	--dest-server https://kubernetes.default.svc \
+	--dest-namespace default
